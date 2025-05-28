@@ -1,10 +1,9 @@
+#include "chip8.h"
 #include <stdint.h>
 
-//Define custom types to use throughout
-typedef uint8_t Byte;
-typedef uint16_t Word;
-
-int main()
+int main(int argc, char* argv[])
 {
-	return 0;
+	//Initialize Chip8 
+	Chip8 chip8;
+	
 }
