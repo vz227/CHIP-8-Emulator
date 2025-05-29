@@ -1,15 +1,16 @@
 #include <chip8.h>
-#include <fstream>
 
-Chip8::Chip8()
+Chip8::Chip8():randGen(std::chrono::system_clock::now().time_since_epoch().count())
 {
 	//Set program counter to the address of the first instruction of the ROM, 0x200
 	PC = ROM_START_ADDRESS;
 
-	//Load characters at address 0x50
+	//Load character sprites at address 0x50
 	LoadFont();
 
 
+	//Initialize RNG
+	randByte = std::uniform_int_distribution<Byte>(0, 255U);
 }
 
 Chip8::~Chip8()
@@ -46,6 +47,12 @@ void Chip8::LoadROM(char* const filePath)
 
 		//Free memory
 		delete[] buffer;
+	}
+
+	else
+	{
+		std::fprintf(stderr, "Could not load specified ROM.\n");
+		return;
 	}
 }
 
