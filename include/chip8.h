@@ -36,7 +36,7 @@ class Chip8
 		Byte keypad[0xF]{}; //Keypad to keep track of each key's status, pressed or not pressed
 
 		//64 * 32 pixel screen, represented as 32 bits for ease of use with SDL
-		DWord video[64 * 32]{};
+		DWord video_buffer[64 * 32]{};
 	
 		//Current opcode
 		Word opcode;

@@ -1,6 +1,4 @@
 #include "chip8.h"
-#include <stdint.h>
-
 #include <iostream>
 
 int main(int argc, char* argv[])
