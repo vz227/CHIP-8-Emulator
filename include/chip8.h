@@ -11,9 +11,13 @@ typedef uint8_t Byte;
 typedef uint16_t Word;
 typedef uint32_t DWord;
 
-// Constants
+// Address constants
 const unsigned int ROM_START_ADDRESS = 0x200;
 const unsigned int FONTSET_START_ADDRESS = 0x50;
+
+// Video constants
+const unsigned int VIDEO_WIDTH = 64;
+const unsigned int VIDEO_HEIGHT = 32;
 
 class Chip8
 {
@@ -33,10 +37,10 @@ class Chip8
 		Byte soundTimer{};  // Sound timer (decrements at 60Hz & buzzes while not zero)
 
 		
-		Byte keypad[0xF]{}; //Keypad to keep track of each key's status, pressed or not pressed
+		Byte keypad[0xF]{}; //Keypad to keep track of each key's status, pressed or not pressed. We will use the MSB of each Byte to determine whether a key is pressed
 
 		//64 * 32 pixel screen, represented as 32 bits for ease of use with SDL
-		DWord video_buffer[64 * 32]{};
+		DWord video_buffer[VIDEO_WIDTH * VIDEO_HEIGHT]{};
 	
 		//Current opcode
 		Word opcode;
