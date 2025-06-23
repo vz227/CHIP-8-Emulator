@@ -178,19 +178,19 @@ void Chip8::OP_Dxyn()
 void Chip8::OP_Ex9E()
 {
 	//Check whether button with value of Vx is pressed, and if so, increment the PC by 2
-	if ((keypad[registers[(opcode & 0x0F00) >> 8]] & 0b10000000) == 128) PC += 2;
+	if ((keypad[registers[(opcode & 0x0F00) >> 8u]] & 0b10000000) == 128) PC += 2;
 }
 
 void Chip8::OP_ExA1()
 {
 	//Check whether button with value of Vx is pressed, and if not, increment the PC by 2
-	if ((keypad[registers[(opcode & 0x0F00) >> 8]] & 0b10000000) == 0) PC += 2;
+	if ((keypad[registers[(opcode & 0x0F00) >> 8u]] & 0b10000000) == 0) PC += 2;
 }
 
 void Chip8::OP_Fx07()
 {
 	//Place value of delayTimer in register Vx
-	registers[opcode & 0x0F00 >> 8] = delayTimer;
+	registers[opcode & 0x0F00 >> 8u] = delayTimer;
 }
 
 void Chip8::OP_Fx0A()
