@@ -1,6 +1,6 @@
 #include <chip8.h>
 
-Chip8::Chip8():randGen(std::chrono::system_clock::now().time_since_epoch().count())
+Chip8::Chip8() :randGen(std::chrono::system_clock::now().time_since_epoch().count())
 {
 	//Set program counter to the address of the first instruction of the ROM, 0x200
 	PC = ROM_START_ADDRESS;
@@ -80,7 +80,7 @@ void Chip8::LoadFont()
 	};
 
 	//Store fontSet starting at address 0x50 in memory as per the technical reference
-	for (unsigned int i = 0; i < 16; i + 5)
+	for (unsigned int i = 0; i < 16; i += 5)
 	{
 		for (unsigned int j = 0; i < 5; j++)
 		{

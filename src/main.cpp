@@ -8,4 +8,6 @@ int main(int argc, char* argv[])
 	Chip8 chip8;
 
 	chip8.LoadROM(argv[0]);
+
+	return 0;
 }

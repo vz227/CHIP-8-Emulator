@@ -8,7 +8,7 @@ void Chip8::OP_00E0()
 
 void Chip8::OP_00EE()
 {
-	
+
 	PC = SP; // Set program counter to that of the top of the stack
 	SP--;    // Decrement stack pointer
 }
@@ -19,7 +19,7 @@ void Chip8::OP_1nnn()
 }
 
 void Chip8::OP_2nnn()
-{	
+{
 	SP++;                 //Increment stack pointer	
 	stack[SP] = PC;       //Put current stack pointer on top of the stack	
 	PC = opcode & 0x0FFF; //Set PC to address nnn
@@ -83,12 +83,12 @@ void Chip8::OP_8xy4()
 {
 	// Extract result
 	Word result = (registers[(opcode & 0x0F00) >> 8u] + registers[(opcode & 0x00F0) >> 4u]);
-	
+
 	// Set carry register VF to 1 if result is greater than 8 bits, otherwise 0
 	registers[0xF] = (result > 255) ? 1 : 0;
 
 	// Store lowest 8 bits of result in Vx
-	registers[(opcode & 0x0F00) >> 8u] = (result & 0x00FF);	
+	registers[(opcode & 0x0F00) >> 8u] = (result & 0x00FF);
 }
 
 void Chip8::OP_8xy5()
@@ -166,13 +166,13 @@ void Chip8::OP_Dxyn()
 	int n = registers[opcode & 0x000F];
 
 	//Save current coordinates making sure the coordinates wrap around if they're out of bounds
-	Byte xPos = (registers[opcode & 0x0F00] >> 8) % VIDEO_WIDTH;
-	Byte yPos = (registers[opcode & 0x00F0] >> 4) % VIDEO_HEIGHT;
+	Byte xPos = registers[(opcode & 0x0F00) >> 8u] % VIDEO_WIDTH;
+	Byte yPos = registers[(opcode & 0x00F0) >> 4u] % VIDEO_HEIGHT;
 
-	for (int i = 0; i < n; i++)
-	{
+	//for (int i = 0; i < n; i++)
+	//{
 
-	}
+	//}
 }
 
 void Chip8::OP_Ex9E()
@@ -204,35 +204,52 @@ void Chip8::OP_Fx0A()
 
 void Chip8::OP_Fx15()
 {
-
+	//Set delay timer to the value stored in Vx
+	delayTimer = registers[(opcode & 0x0F00) >> 8u];
 }
 
 void Chip8::OP_Fx18()
 {
-
+	//Set sound timer to the value stored in Vx
+	soundTimer = registers[(opcode & 0x0F00) >> 8u];
 }
 
 void Chip8::OP_Fx1E()
 {
-
+	//Increment index by the value stored in Vx
+	index += registers[(opcode & 0x0F00) >> 8u];
 }
 
 void Chip8::OP_Fx29()
 {
-
+	//Set index to the location in memory of the sprite for digit stored in Vx
+	index = 0x050 + (5 * registers[(opcode & 0x0F00) >> 8u]);
 }
 
 void Chip8::OP_Fx33()
 {
+	//Save value stored in register Vx
+	Byte Vx = registers[(opcode & 0x0F00) >> 8u];
 
+	memory[index] = Vx / 100;				//Store hundreds digit at memory location of index
+	memory[index + 1] = (Vx % 100) / 10;	//Store tens digit at memory location of index + 1
+	memory[index + 2] = Vx % 10;			//Store ones digit at memory location index + 2
 }
 
 void Chip8::OP_Fx55()
 {
-
+	//Store registers V0 through Vx in memory starting at location I
+	for (int i = 0; i <= ((opcode & 0x0F00) >> 8u); i++)
+	{
+		memory[index + i] = registers[i];
+	}
 }
 
 void Chip8::OP_Fx65()
 {
-
+	//Read memory starting from location I into registers V0 through Vx
+	for (int i = 0; i <= ((opcode & 0x0F00) >> 8u); i++)
+	{
+		registers[i] = memory[index + i];
+	}
 }
