@@ -1,6 +1,6 @@
 #include <chip8.h>
 
-Chip8::Chip8() :randGen(std::chrono::system_clock::now().time_since_epoch().count())
+Chip8::Chip8() //:randGen(std::chrono::system_clock::now().time_since_epoch().count())
 {
 	//Set program counter to the address of the first instruction of the ROM, 0x200
 	PC = ROM_START_ADDRESS;
@@ -10,7 +10,7 @@ Chip8::Chip8() :randGen(std::chrono::system_clock::now().time_since_epoch().coun
 
 
 	//Initialize RNG
-	randByte = std::uniform_int_distribution<Byte>(0, 255U);
+	//randByte = std::uniform_int_distribution<Byte>(0, 255U);
 }
 
 Chip8::~Chip8()
@@ -87,4 +87,15 @@ void Chip8::LoadFont()
 			memory[FONTSET_START_ADDRESS + (i * 5) + j] = fontSet[i].sprite[j];
 		}
 	}
+}
+
+void Chip8::CPUCycle()
+{
+	//Fetch current opcode
+	opcode = memory[PC];
+
+	//Increment PC
+	PC += 2;
+
+
 }

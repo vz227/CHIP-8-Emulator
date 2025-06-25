@@ -2,7 +2,7 @@
 
 void Chip8::OP_00E0()
 {
-	//
+	//Clear the video buffer
 	memset(video_buffer, 0, sizeof(video_buffer));
 }
 
@@ -148,43 +148,60 @@ void Chip8::OP_Bnnn()
 void Chip8::OP_Cxkk()
 {
 	//Generate random number from 0 to 255 & AND it with the value kk. Store result in register Vx
-	registers[(opcode & 0x0F00) >> 8u] = randByte(randGen) & (opcode & 0x00FFu);
+	//registers[(opcode & 0x0F00) >> 8u] = randByte(randGen) & (opcode & 0x00FFu);
 }
 
 void Chip8::OP_Dxyn()
 {
-	// Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
-
-	// The interpreter reads n bytes from memory, starting at the address stored in I.
-	// These bytes are then displayed as sprites on screen at coordinates (Vx, Vy). Sprites are XORed onto the existing screen.
-	// If this causes any pixels to be erased, VF is set to 1, otherwise it is set to 0. If the sprite is positioned so part of it is outside the coordinates of the display,
-	// it wraps around to the opposite side of the screen. See instruction 8xy3 for more information on XOR, and section 2.4, Display,
-	// for more information on the Chip-8 screen and sprites.
-
-
 	//Save the amount of bytes to be read from memory
-	int n = registers[opcode & 0x000F];
+	int byte_count = opcode & 0x000F;
 
 	//Save current coordinates making sure the coordinates wrap around if they're out of bounds
 	Byte xPos = registers[(opcode & 0x0F00) >> 8u] % VIDEO_WIDTH;
 	Byte yPos = registers[(opcode & 0x00F0) >> 4u] % VIDEO_HEIGHT;
 
-	//for (int i = 0; i < n; i++)
-	//{
+	//Make sure register VF is cleared before drawing
+	registers[0xF] = 0;
 
-	//}
+	//Iterate through byte count
+	for (int i = 0; i < byte_count; i++)
+	{
+		Byte current_byte = memory[index + i];
+
+		//Iterate through bits of current byte
+		for (int j = 0; j < 8; j++)
+		{
+			Byte current_pixel = current_byte & (0x80u >> j);
+			DWord* screen_pixel = &video_buffer[(yPos + i) * (xPos + j)];
+
+			if (current_pixel)
+			{
+				//Set register VF to 1 or 0 depending on whether a pixel is made to be erased
+				if (*screen_pixel == 0xFFFFFFFF) registers[0xF] = 1;
+
+				//XOR the screen pixel with the sprite pixel
+				*screen_pixel ^= 0xFFFFFFFF;
+			}
+		}
+	}
 }
 
 void Chip8::OP_Ex9E()
 {
-	//Check whether button with value of Vx is pressed, and if so, increment the PC by 2
-	if ((keypad[registers[(opcode & 0x0F00) >> 8u]] & 0b10000000) == 128) PC += 2;
+	//Save key from opcode
+	Byte key = registers[(opcode & 0x0F00) >> 8u];
+	
+	//Check whether key is pressed, if so, increment PC by 2
+	if (keypad & (1 << key)) PC += 2;
 }
 
 void Chip8::OP_ExA1()
 {
-	//Check whether button with value of Vx is pressed, and if not, increment the PC by 2
-	if ((keypad[registers[(opcode & 0x0F00) >> 8u]] & 0b10000000) == 0) PC += 2;
+	//Save key from opcode
+	Byte key = registers[(opcode & 0x0F00) >> 8u];
+
+	//Check whether key is pressed, if not, increment PC by 2
+	if (!(keypad & (1 << key))) PC += 2;
 }
 
 void Chip8::OP_Fx07()
@@ -195,11 +212,25 @@ void Chip8::OP_Fx07()
 
 void Chip8::OP_Fx0A()
 {
-	//Wait for a key press, store the value of the key in Vx.
-	//All execution stops until a key is pressed, then the value of that key is stored in Vx.
+	//Decrement PC by 2 & return to run the same instruction if no key is pressed
+	if (!keypad)
+	{
+		PC -= 2;
+		return;
+	}
 
+	//Save register number
+	Byte Vx = (opcode & 0x0F00) >> 8u;
 
-
+	//Iterate through all keys, store first pressed key in Vx, and break
+	for (int i = 0; i < 16; i++)
+	{
+		if (keypad & (1 << i))
+		{
+			registers[Vx] = i;
+			break;
+		}
+	}
 }
 
 void Chip8::OP_Fx15()

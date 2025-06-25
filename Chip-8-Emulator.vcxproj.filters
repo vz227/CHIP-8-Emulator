@@ -24,9 +24,15 @@
     <ClCompile Include="src\opcodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\chip8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
