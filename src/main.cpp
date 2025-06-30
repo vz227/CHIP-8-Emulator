@@ -13,10 +13,12 @@ int main(int argc, char* argv[])
 	}
 	
 	Chip8 chip8;			//Initialize Chip8 instance
-	chip8.LoadROM(argv[0]); //Load ROM from provided file path
+	chip8.LoadROM(argv[1]); //Load ROM from provided file path
 
 	//Initialize display
 	Display display("CHIP-8 Emulator", VIDEO_WIDTH, VIDEO_HEIGHT, VIDEO_WIDTH, VIDEO_HEIGHT);
+
+	while (display.ProcessInput(chip8.keypad))
 
 	return 0;
 }

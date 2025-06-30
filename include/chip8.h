@@ -12,6 +12,7 @@ typedef uint16_t Word;
 typedef uint32_t DWord;
 
 //Address constants
+const unsigned int MEMORY_SIZE = 0x1000;
 const unsigned int ROM_START_ADDRESS = 0x200;
 const unsigned int FONTSET_START_ADDRESS = 0x50;
 
@@ -26,7 +27,7 @@ private:
 	Byte registers[16]{}; //16 registers, each 8 bits (one byte) in size
 
 
-	Byte memory[4096]{}; //4KB (4096B) of memory
+	Byte memory[MEMORY_SIZE]{}; //4KB (4096B) of memory
 
 	//Registers
 	Word index{};       //Index register (max address 0xFFF)
@@ -36,9 +37,6 @@ private:
 	Byte delayTimer{};  //Delay timer (decrements at 60Hz)
 	Byte soundTimer{};  //Sound timer (decrements at 60Hz & buzzes while not zero)
 
-
-	Word keypad{}; //Keypad to keep track of each key's status, pressed or not pressed. We will use one bit per key, with 1 meaning pressed, and 0 meaning not pressed
-
 	//64 * 32 pixel screen, represented as 32 bits for ease of use with SDL
 	DWord video_buffer[VIDEO_WIDTH * VIDEO_HEIGHT]{};
 
@@ -46,6 +44,10 @@ private:
 	Word opcode;
 
 public:
+
+	//Keypad to keep track of each key's status, pressed or not pressed. We will use one bit per key, with 1 meaning pressed, and 0 meaning not pressed
+	Word keypad{}; 
+
 	//Constructor & destructor
 	Chip8();
 	~Chip8();
