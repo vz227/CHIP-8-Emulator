@@ -12,7 +12,7 @@ public:
 	~Display();
 
 	//Update current display
-	void Update();
+	void Update(const void* buffer, int pitch);
 
 	//Process user input, return true 
 	bool ProcessInput(uint16_t keypad);
