@@ -40,17 +40,15 @@ void Display::Update(const void* buffer, int pitch)
 {
 	//
 	SDL_UpdateTexture(texture, NULL, buffer, pitch);
-
+	SDL_RenderClear(renderer);
+	SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+	SDL_RenderPresent(renderer);
 }
 
-bool Display::ProcessInput(uint16_t keypad)
+void Display::ProcessInput(uint16_t keypad, bool &quit)
 {
-	//Initialize quit flag
-	bool quit = false;
-
 	//Initialize current SDL_Event
 	SDL_Event event;
-
 
 	while (SDL_PollEvent(&event))
 	{
@@ -267,9 +265,6 @@ bool Display::ProcessInput(uint16_t keypad)
 			}
 		}
 		}
-
-		//Return quit flag
-		return quit;
 	}
 }
 

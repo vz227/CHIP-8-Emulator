@@ -37,13 +37,28 @@ private:
 	Byte delayTimer{};  //Delay timer (decrements at 60Hz)
 	Byte soundTimer{};  //Sound timer (decrements at 60Hz & buzzes while not zero)
 
-	//64 * 32 pixel screen, represented as 32 bits for ease of use with SDL
-	DWord video_buffer[VIDEO_WIDTH * VIDEO_HEIGHT]{};
-
 	//Current opcode
 	Word opcode;
 
+	//Type definition for CHIP-8 function pointer
+	typedef void (Chip8::* Chip8Func)();
+
+	//Function table & subtables
+	Chip8Func table[0xF + 1];		//Table to index into functions using the first digit of the opcode (0x0 to 0xF)
+	Chip8Func table0[0xE + 1];		//Table to index into functions whose opcode begins with 0 (Max index is E in OP_00EE()) 
+	Chip8Func table8[0xE + 1];		//Table to index into functions whose opcode begins with 8 (Max index is E in OP_8xyE())
+	Chip8Func tableE[0xE + 1];		//Table to index into functions whose opcode begins with E (Max index is E in OP_Ex9E())
+	Chip8Func tableF[0x65 + 1];		//Table to index into functions whose opcode begins with F (Need to take into account last 2 digits due to matching last digits in some opcodes, so max index is 65 in OP_Fx65())
+
+	//Functions to handle indexing into subtables
+	void Table0();
+	void Table8();
+	void TableE();
+	void TableF();
+
 public:
+	//64 * 32 pixel screen, represented as 32 bits for ease of use with SDL
+	DWord video_buffer[VIDEO_WIDTH * VIDEO_HEIGHT]{};
 
 	//Keypad to keep track of each key's status, pressed or not pressed. We will use one bit per key, with 1 meaning pressed, and 0 meaning not pressed
 	Word keypad{}; 
@@ -100,6 +115,7 @@ public:
 	void OP_Fx33(); //Store BCD representation of Vx in memory locations I, I+1, and I+2
 	void OP_Fx55(); //Store registers V0 through Vx in memory starting at location I
 	void OP_Fx65(); //Read registers V0 through Vx from memory starting at location I
+	void OP_NULL(); //Null function to have a fallback in function pointer table in case of invalid opcode
 };
 
 

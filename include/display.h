@@ -14,8 +14,8 @@ public:
 	//Update current display
 	void Update(const void* buffer, int pitch);
 
-	//Process user input, return true 
-	bool ProcessInput(uint16_t keypad);
+	//Process user input updating keypad flags, quit flag set to true when input terminates program
+	void ProcessInput(uint16_t keypad, bool &quit);
 
 private:
 	SDL_Window* window{};

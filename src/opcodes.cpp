@@ -284,3 +284,8 @@ void Chip8::OP_Fx65()
 		registers[i] = memory[index + i];
 	}
 }
+
+void Chip8::OP_NULL()
+{
+	return;
+}
