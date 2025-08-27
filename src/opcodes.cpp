@@ -3,7 +3,7 @@
 void Chip8::OP_00E0()
 {
 	//Clear the video buffer
-	memset(video_buffer, 0, sizeof(video_buffer));
+	memset(videoBuffer, 0, sizeof(videoBuffer));
 }
 
 void Chip8::OP_00EE()
@@ -153,7 +153,7 @@ void Chip8::OP_Cxkk()
 
 void Chip8::OP_Dxyn()
 {
-	//Save the amount of bytes to be read from memory
+	//Save the amount of bytes to be read from memory, i.e. the height of the sprite
 	int byte_count = opcode & 0x000F;
 
 	//Save current coordinates making sure the coordinates wrap around if they're out of bounds
@@ -163,16 +163,20 @@ void Chip8::OP_Dxyn()
 	//Make sure register VF is cleared before drawing
 	registers[0xF] = 0;
 
-	//Iterate through byte count
-	for (int i = 0; i < byte_count; i++)
+	//Iterate through byte count, i.e. each row of the sprite
+	for (int byte = 0; byte < byte_count; byte++)
 	{
-		Byte current_byte = memory[index + i];
+		//Save current byte/row of the sprite
+		Byte current_byte = memory[index + byte];
 
-		//Iterate through bits of current byte
-		for (int j = 0; j < 8; j++)
+		//Iterate through bits of current row/byte
+		for (int bit = 0; bit < 8; bit++)
 		{
-			Byte current_pixel = current_byte & (0x80u >> j);
-			DWord* screen_pixel = &video_buffer[(yPos + i) * (xPos + j)];
+			//Save current pixel of current row
+			Byte current_pixel = current_byte & (0x80u >> bit);
+
+			//Save pointer to current screen pixel (as a DWord for convenience with SDL)
+			DWord* screen_pixel = &videoBuffer[((yPos + byte) % VIDEO_HEIGHT) * VIDEO_WIDTH + ((xPos + bit) % VIDEO_WIDTH)];
 
 			if (current_pixel)
 			{

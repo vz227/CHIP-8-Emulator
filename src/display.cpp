@@ -36,7 +36,7 @@ Display::~Display()
 	SDL_Quit();
 }
 
-void Display::Update(const void* buffer, int pitch)
+void Display::Draw(const void* buffer, int pitch)
 {
 	//
 	SDL_UpdateTexture(texture, NULL, buffer, pitch);

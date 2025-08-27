@@ -58,7 +58,7 @@ private:
 
 public:
 	//64 * 32 pixel screen, represented as 32 bits for ease of use with SDL
-	DWord video_buffer[VIDEO_WIDTH * VIDEO_HEIGHT]{};
+	DWord videoBuffer[VIDEO_WIDTH * VIDEO_HEIGHT]{};
 
 	//Keypad to keep track of each key's status, pressed or not pressed. We will use one bit per key, with 1 meaning pressed, and 0 meaning not pressed
 	Word keypad{}; 
