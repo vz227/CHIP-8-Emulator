@@ -119,8 +119,6 @@ void Chip8::LoadROM(char* const filePath)
 		std::fprintf(stderr, "Could not load specified ROM.\n");
 		return;
 	}
-
-	fprintf(stdout, "ROM file %s loaded!\n", filePath);
 }
 
 void Chip8::LoadFont()
@@ -147,7 +145,7 @@ void Chip8::LoadFont()
 	};
 
 	//Store fontSet starting at address 0x50 in memory as per the technical reference
-	for (unsigned int i = 0; i < 16; i ++)
+	for (unsigned int i = 0; i < 16; i++)
 	{
 		for (unsigned int j = 0; j < 5; j++)
 		{

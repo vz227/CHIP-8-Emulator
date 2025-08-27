@@ -45,7 +45,7 @@ void Display::Draw(const void* buffer, int pitch)
 	SDL_RenderPresent(renderer);
 }
 
-void Display::ProcessInput(uint16_t keypad, bool &quit)
+void Display::ProcessInput(uint16_t keypad, bool& quit)
 {
 	//Initialize current SDL_Event
 	SDL_Event event;

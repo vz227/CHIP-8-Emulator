@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 	int cycleDelay{ std::stoi(argv[3]) };													//Delay between CPU cycles (different ROMs require different delays)
 
 	//Initialize display
-	Display display("CHIP-8 Emulator", VIDEO_WIDTH * videoScale, VIDEO_HEIGHT * videoScale, VIDEO_WIDTH, VIDEO_HEIGHT);
+	Display display("CHIP-8", VIDEO_WIDTH * videoScale, VIDEO_HEIGHT * videoScale, VIDEO_WIDTH, VIDEO_HEIGHT);
 
 	Chip8 chip8;																			//Initialize Chip8 instance
 	chip8.LoadROM(romPath);																	//Load ROM from provided file path
@@ -30,9 +30,7 @@ int main(int argc, char* argv[])
 	while (!quit)
 	{
 		display.ProcessInput(chip8.keypad, quit);											//Process any input & set quit flag if necessary
-
 		chip8.CPUCycle();																	//Run through a CPU cycle
-
 		display.Draw(chip8.videoBuffer, videoPitch);										//Update the display
 	}
 

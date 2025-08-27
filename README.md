@@ -17,6 +17,8 @@ WIP
 To run a ROM file the following syntax is to be used:<br>
 ```<Path to Executable> <Path to ROM> <Display Scale> <CPU Cycle Delay>```
 
+ROM files for the CHIP-8 can be found [here](https://github.com/dmatlack/chip8/tree/master/roms).
+
 ## References
 
 - [CHIP-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
