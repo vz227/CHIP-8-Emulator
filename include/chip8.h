@@ -24,7 +24,7 @@ class Chip8
 {
 private:
 
-	Byte registers[16]{}; //16 registers, each 8 bits (one byte) in size
+	Byte registers[16]{}; //16 registers, each one byte in size
 
 
 	Byte memory[MEMORY_SIZE]{}; //4KB (4096B) of memory
@@ -74,11 +74,7 @@ public:
 	void LoadFont();
 
 	//Fetch, decode, execute for a single CPU cycle
-	void CPUCycle();
-
-
-	//std::default_random_engine randGen; //Random engine member used for generating the RNG
-	//std::uniform_int_distribution<Byte> randByte;
+	void CPUCycle();	
 
 	//Operations
 	void OP_00E0(); //Clear the screen

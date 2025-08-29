@@ -103,7 +103,7 @@ void Chip8::OP_8xy5()
 void Chip8::OP_8xy6()
 {
 	//Set carry register VF to 1 if least significant bit of value in register Vx is 1, otherwise 0
-	registers[0xF] = ((registers[opcode & 0x0F00] & 0b00000001) == 0b00000001) ? 1 : 0;
+	registers[0xF] = ((registers[(opcode & 0x0F00) >> 8u] & 0b00000001) == 0b00000001) ? 1 : 0;
 
 	//Divide value in register Vx by 2 and store in Vx
 	registers[(opcode & 0x0F00) >> 8u] /= 2;
@@ -112,25 +112,25 @@ void Chip8::OP_8xy6()
 void Chip8::OP_8xy7()
 {
 	//Set carry register VF to 1 if value in register Vx is greater than value in register Vy, otherwise 0
-	registers[0xF] = (registers[opcode & 0x0F00] < registers[opcode & 0x00F0]) ? 1 : 0;
+	registers[0xF] = (registers[(opcode & 0x0F00) >> 8u] < registers[(opcode & 0x00F0) >> 4u]) ? 1 : 0;
 
 	// Subtract value in register Vx from Vy and store result in register Vx
-	registers[opcode & 0x0F00] = (registers[opcode & 0x00F0] - registers[opcode & 0x0F00]);
+	registers[(opcode & 0x0F00) >> 8u] = (registers[(opcode & 0x00F0) >> 8u] - registers[(opcode & 0x0F00) >> 4u]);
 }
 
 void Chip8::OP_8xyE()
 {
 	//Set carry register VF to 1 if least significant bit of value in register Vx is 1, otherwise 0
-	registers[0xF] = ((registers[opcode & 0x0F00] & 0b00000001) == 0b00000001) ? 1 : 0;
+	registers[0xF] = ((registers[(opcode & 0x0F00) >> 8u] & 0b00000001) == 0b00000001) ? 1 : 0;
 
 	//Multiply value in register Vx by 2 and store in Vx
-	registers[opcode & 0x0F00] *= 2;
+	registers[(opcode & 0x0F00) >> 8u] *= 2;
 }
 
 void Chip8::OP_9xy0()
 {
 	//Skip next instruction if Vx != Vy
-	if (registers[opcode & 0x0F00] != registers[opcode & 0x00F0]) PC += 2;
+	if (registers[(opcode & 0x0F00) >> 8u] != registers[(opcode & 0x00F0) >> 4u]) PC += 2;
 }
 
 void Chip8::OP_Annn()
@@ -148,7 +148,7 @@ void Chip8::OP_Bnnn()
 void Chip8::OP_Cxkk()
 {
 	//Generate random number from 0 to 255 & AND it with the value kk. Store result in register Vx
-	//registers[(opcode & 0x0F00) >> 8u] = randByte(randGen) & (opcode & 0x00FFu);
+	//registers[(opcode & 0x0F00) >> 8u] = //randnum// & (opcode & 0x00FFu);
 }
 
 void Chip8::OP_Dxyn()
@@ -211,7 +211,7 @@ void Chip8::OP_ExA1()
 void Chip8::OP_Fx07()
 {
 	//Place value of delayTimer in register Vx
-	registers[opcode & 0x0F00 >> 8u] = delayTimer;
+	registers[(opcode & 0x0F00) >> 8u] = delayTimer;
 }
 
 void Chip8::OP_Fx0A()

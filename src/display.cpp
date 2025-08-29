@@ -1,4 +1,5 @@
 #include "display.h"
+#include "chip8.h"
 
 Display::Display(const char* windowTitle, int windowWidth, int windowHeight, int textureWidth, int textureHeight)
 {
@@ -26,23 +27,35 @@ Display::Display(const char* windowTitle, int windowWidth, int windowHeight, int
 	{
 		fprintf(stderr, "Could not create texture.\n SDL_Error: %s\n", SDL_GetError());
 	}
+
+	//Set resolution for rendering
+	if (!SDL_SetRenderLogicalPresentation(renderer, VIDEO_WIDTH, VIDEO_HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE))
+	{
+		fprintf(stderr, "Could not set render logical presentation.\n SDL_Error: %s\n", SDL_GetError());
+
+	}
+
+	//Set scale mode for texture scaling
+	if (!SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST))
+	{
+		fprintf(stderr, "Could not set texture scale mode.\n SDL_Error: %s\n", SDL_GetError());
+	}
 }
 
 Display::~Display()
 {
-	SDL_DestroyTexture(texture);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+	SDL_DestroyTexture(texture);								//
+	SDL_DestroyRenderer(renderer);								//
+	SDL_DestroyWindow(window);									//
+	SDL_Quit();													//
 }
 
 void Display::Draw(const void* buffer, int pitch)
 {
-	//
-	SDL_UpdateTexture(texture, NULL, buffer, pitch);
-	SDL_RenderClear(renderer);
-	SDL_RenderTexture(renderer, texture, nullptr, nullptr);
-	SDL_RenderPresent(renderer);
+	SDL_UpdateTexture(texture, NULL, buffer, pitch);			//
+	SDL_RenderClear(renderer);									//
+	SDL_RenderTexture(renderer, texture, nullptr, nullptr);		//
+	SDL_RenderPresent(renderer);								//
 }
 
 void Display::ProcessInput(uint16_t keypad, bool& quit)

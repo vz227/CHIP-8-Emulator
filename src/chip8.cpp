@@ -1,6 +1,6 @@
 #include <chip8.h>
 
-Chip8::Chip8() //:randGen(std::chrono::system_clock::now().time_since_epoch().count())
+Chip8::Chip8()
 {
 	//Set program counter to the address of the first instruction of the ROM, 0x200
 	PC = ROM_START_ADDRESS;
@@ -9,7 +9,6 @@ Chip8::Chip8() //:randGen(std::chrono::system_clock::now().time_since_epoch().co
 	LoadFont();
 
 	//Initialize RNG
-	//randByte = std::uniform_int_distribution<Byte>(0, 255U);
 
 	//Initialize function pointer table
 	table[0x0] = &Chip8::Table0;
