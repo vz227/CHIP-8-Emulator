@@ -32,7 +32,6 @@ Display::Display(const char* windowTitle, int windowWidth, int windowHeight, int
 	if (!SDL_SetRenderLogicalPresentation(renderer, VIDEO_WIDTH, VIDEO_HEIGHT, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE))
 	{
 		fprintf(stderr, "Could not set render logical presentation.\n SDL_Error: %s\n", SDL_GetError());
-
 	}
 
 	//Set scale mode for texture scaling
@@ -58,7 +57,7 @@ void Display::Draw(const void* buffer, int pitch)
 	SDL_RenderPresent(renderer);								//
 }
 
-void Display::ProcessInput(uint16_t keypad, bool& quit)
+void Display::ProcessInput(uint16_t &keypad, bool& quit)
 {
 	//Initialize current SDL_Event
 	SDL_Event event;

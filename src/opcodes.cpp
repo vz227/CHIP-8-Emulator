@@ -106,7 +106,7 @@ void Chip8::OP_8xy6()
 	registers[0xF] = ((registers[(opcode & 0x0F00) >> 8u] & 0b00000001) == 0b00000001) ? 1 : 0;
 
 	//Divide value in register Vx by 2 and store in Vx
-	registers[(opcode & 0x0F00) >> 8u] /= 2;
+	registers[(opcode & 0x0F00) >> 8u] >>= 1;
 }
 
 void Chip8::OP_8xy7()
@@ -115,16 +115,16 @@ void Chip8::OP_8xy7()
 	registers[0xF] = (registers[(opcode & 0x0F00) >> 8u] < registers[(opcode & 0x00F0) >> 4u]) ? 1 : 0;
 
 	// Subtract value in register Vx from Vy and store result in register Vx
-	registers[(opcode & 0x0F00) >> 8u] = (registers[(opcode & 0x00F0) >> 8u] - registers[(opcode & 0x0F00) >> 4u]);
+	registers[(opcode & 0x0F00) >> 8u] = (registers[(opcode & 0x00F0) >> 4u] - registers[(opcode & 0x0F00) >> 8u]);
 }
 
 void Chip8::OP_8xyE()
 {
 	//Set carry register VF to 1 if least significant bit of value in register Vx is 1, otherwise 0
-	registers[0xF] = ((registers[(opcode & 0x0F00) >> 8u] & 0b00000001) == 0b00000001) ? 1 : 0;
+	registers[0xF] = ((registers[(opcode & 0x0F00) >> 8u] & 0b10000000) == 0b10000000) ? 1 : 0;
 
 	//Multiply value in register Vx by 2 and store in Vx
-	registers[(opcode & 0x0F00) >> 8u] *= 2;
+	registers[(opcode & 0x0F00) >> 8u] <<= 1;
 }
 
 void Chip8::OP_9xy0()
