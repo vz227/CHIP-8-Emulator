@@ -11,7 +11,7 @@ Display::Display(const char* windowTitle, int windowWidth, int windowHeight, int
 	}
 
 	//Initialize window & handle possible errors upon window creation
-	if (window = SDL_CreateWindow(windowTitle, windowWidth, windowHeight, NULL); !window)
+	if (window = SDL_CreateWindow(windowTitle, windowWidth, windowHeight, SDL_WINDOW_RESIZABLE); !window)
 	{
 		fprintf(stderr, "Could not create window.\n SDL_Error: %s\n", SDL_GetError());
 	}

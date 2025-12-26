@@ -1,4 +1,5 @@
 #include "chip8.h"
+#include <cstring>
 
 void Chip8::OP_00E0()
 {
