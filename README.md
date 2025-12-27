@@ -3,10 +3,17 @@
 A simple CHIP-8 emulator/interpreter written in C++ 17, using the SDL3 library for graphics and input.
 
 ## Table of Contents
+- [Dependencies](#Dependencies)
 * [Building](#Building)
 * [Running](#Running)
 * [References](#References)
 * [Screenshots](#Screenshots)
+
+## Dependencies
+
+- **C++17 compiler** (`gcc` or `clang`)
+- **CMake** (`cmake`)
+- **SDL3** (`sdl3`)
 
 ## Building
 
