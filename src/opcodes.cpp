@@ -148,6 +148,8 @@ void Chip8::OP_Bnnn()
 
 void Chip8::OP_Cxkk()
 {
+	registers[(opcode & 0x0F00) >> 8u] = static_cast<Byte>(rand() % 256) & (opcode & 0x00FF);
+
 	//Generate random number from 0 to 255 & AND it with the value kk. Store result in register Vx
 	//registers[(opcode & 0x0F00) >> 8u] = //randnum// & (opcode & 0x00FFu);
 }
@@ -165,13 +167,13 @@ void Chip8::OP_Dxyn()
 	registers[0xF] = 0;
 
 	//Iterate through byte count, i.e. each row of the sprite
-	for (int byte = 0; byte < byte_count; byte++)
+	for (int byte{0}; byte < byte_count; ++byte)
 	{
 		//Save current byte/row of the sprite
 		Byte current_byte = memory[index + byte];
 
 		//Iterate through bits of current row/byte
-		for (int bit = 0; bit < 8; bit++)
+		for (int bit{0}; bit < 8; ++bit)
 		{
 			//Save current pixel of current row
 			Byte current_pixel = current_byte & (0x80u >> bit);
@@ -228,7 +230,7 @@ void Chip8::OP_Fx0A()
 	Byte Vx = (opcode & 0x0F00) >> 8u;
 
 	//Iterate through all keys, store first pressed key in Vx, and break
-	for (int i = 0; i < 16; i++)
+	for (int i{0}; i < 16; ++i)
 	{
 		if (keypad & (1 << i))
 		{
@@ -275,7 +277,7 @@ void Chip8::OP_Fx33()
 void Chip8::OP_Fx55()
 {
 	//Store registers V0 through Vx in memory starting at location I
-	for (int i = 0; i <= ((opcode & 0x0F00) >> 8u); i++)
+	for (int i{0}; i <= ((opcode & 0x0F00) >> 8u); ++i)
 	{
 		memory[index + i] = registers[i];
 	}
@@ -284,7 +286,7 @@ void Chip8::OP_Fx55()
 void Chip8::OP_Fx65()
 {
 	//Read memory starting from location I into registers V0 through Vx
-	for (int i = 0; i <= ((opcode & 0x0F00) >> 8u); i++)
+	for (int i{0}; i <= ((opcode & 0x0F00) >> 8u); ++i)
 	{
 		registers[i] = memory[index + i];
 	}

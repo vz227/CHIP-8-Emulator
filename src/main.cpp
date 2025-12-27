@@ -1,14 +1,12 @@
 #include "chip8.h"
 #include "display.h"
-#include <iostream> 
-#include <string>
-#include <chrono>
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
 	if (argc != 4)
 	{
-		std::fprintf(stderr, "Usage: %s <ROM> <Scale> <CPU Cycle Delay>\n", argv[0]);
+		std::cerr << "Usage: " <<  argv[0] << " <ROM> <Scale> <CPU Cycle Delay>" << std::endl;
 		return 1;
 	}
 

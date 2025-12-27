@@ -8,8 +8,6 @@ Chip8::Chip8()
 	//Load character sprites at address 0x50
 	LoadFont();
 
-	//Initialize RNG
-
 	//Initialize function pointer table
 	table[0x0] = &Chip8::Table0;
 	table[0x1] = &Chip8::OP_1nnn;
@@ -29,7 +27,7 @@ Chip8::Chip8()
 	table[0xF] = &Chip8::TableF;
 
 	//Assign *OP_NULL() to all addresses in table0[], table8[] & tableE[]
-	for (int i = 0; i <= 0xE; i++)
+	for (int i{0}; i <= 0xE; ++i)
 	{
 		table0[i] = &Chip8::OP_NULL;
 		table8[i] = &Chip8::OP_NULL;
@@ -37,7 +35,7 @@ Chip8::Chip8()
 	}
 
 	//Assign *OP_NULL() to all addresses in tableF[]
-	for (int j = 0; j <= 0x65; j++)
+	for (int j{0}; j <= 0x65; ++j)
 	{
 		tableF[j] = &Chip8::OP_NULL;
 	}
@@ -104,7 +102,7 @@ void Chip8::LoadROM(char* const filePath)
 		file.close();
 
 		//Write buffer into memory starting at 0x200
-		for (long i = 0; i < static_cast<long>(size); i++)
+		for (long i{0}; i < static_cast<long>(size); ++i)
 		{
 			memory[ROM_START_ADDRESS + i] = buffer[i];
 		}
@@ -144,9 +142,9 @@ void Chip8::LoadFont()
 	};
 
 	//Store fontSet starting at address 0x50 in memory as per the technical reference
-	for (unsigned int i = 0; i < 16; i++)
+	for (unsigned int i{0}; i < 16; ++i)
 	{
-		for (unsigned int j = 0; j < 5; j++)
+		for (unsigned int j{0}; j < 5; ++j)
 		{
 			memory[FONTSET_START_ADDRESS + (i * 5) + j] = fontSet[i].sprite[j];
 		}

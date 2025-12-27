@@ -3,7 +3,6 @@
 //Include headers
 #include <stdint.h>
 #include <fstream>
-#include <chrono>
 #include <random>
 
 //Custom type definitions
@@ -74,7 +73,7 @@ public:
 	void LoadFont();
 
 	//Fetch, decode, execute for a single CPU cycle
-	void CPUCycle();	
+	void CPUCycle();
 
 	//Operations
 	void OP_00E0(); //Clear the screen
