@@ -10,12 +10,22 @@ A simple CHIP-8 emulator/interpreter written in C++ 17, using the SDL3 library f
 
 ## Building
 
-WIP
+### Linux/macOS
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
 
 ## Running
 
-To run a ROM file the following syntax is to be used:<br>
-```<Path to Executable> <Path to ROM> <Display Scale> <CPU Cycle Delay>```
+To run a ROM file the following command can be run from within the repository directory:
+
+```./bin/chip8 <Path to ROM> <Display Scale> <CPU Cycle Delay>```
+
+Generally, a display scale of 10 is recommended. The optimal CPU cycle delay may vary across games, so feel free to adjust it to your liking.
 
 ROM files for the CHIP-8 can be found [here](https://github.com/dmatlack/chip8/tree/master/roms).
 
