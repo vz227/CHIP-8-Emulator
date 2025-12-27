@@ -1,6 +1,6 @@
 # CHIP-8 Emulator
 
-Simple CHIP-8 Emulator/Interpreter written in C++
+A simple CHIP-8 emulator/interpreter written in C++ 17, using the SDL3 library for graphics and input.
 
 ## Table of Contents
 * [Building](#Building)
